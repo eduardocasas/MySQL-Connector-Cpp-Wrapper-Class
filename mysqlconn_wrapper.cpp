@@ -30,7 +30,7 @@ MySQLConnWrapper::~MySQLConnWrapper()
 
 void MySQLConnWrapper::manageException(sql::SQLException& e)
 {
-    if (e.getErrorCode() != 0) {
+    if (e.getErrorCode() != 0){
         cout << "# ERR: SQLException in " << __FILE__;
         cout << "(" << __FUNCTION__ << ") on line " << __LINE__ << endl;
         cout << "# ERR: " << e.what();
@@ -41,26 +41,18 @@ void MySQLConnWrapper::manageException(sql::SQLException& e)
 
 void MySQLConnWrapper::connect()
 {
-    try {
+    try{
         driver = get_driver_instance();
-    } catch (sql::SQLException &e) {
-        manageException(e);
-    }
-    try {
         con = driver->connect(host, user, password);
-    } catch (sql::SQLException &e) {
+    } catch (sql::SQLException &e){
         manageException(e);
     }
 }
 
 void MySQLConnWrapper::switchDb(const string& db_name)
 {
-    try {
+    try{
         con->setSchema(db_name);
-    } catch (sql::SQLException &e) {
-        manageException(e);
-    }
-    try {
         stmt = con->createStatement();
     } catch (sql::SQLException &e) {
         manageException(e);
@@ -69,9 +61,9 @@ void MySQLConnWrapper::switchDb(const string& db_name)
 
 void MySQLConnWrapper::prepare(const string& query)
 {
-    try {
+    try{
         prep_stmt = con->prepareStatement(query);
-    } catch (sql::SQLException &e) {
+    } catch (sql::SQLException &e){
         manageException(e);
     }
 }
@@ -88,7 +80,7 @@ void MySQLConnWrapper::setString(const int& num, const string& data)
 
 void MySQLConnWrapper::execute(const string& query)
 {
-    try {
+    try{
         res = (query != "") ? stmt->executeQuery(query) : prep_stmt->executeQuery();
     } catch (sql::SQLException &e) {
         manageException(e);
