@@ -80,15 +80,23 @@ void MySQLConnWrapper::setString(const int& num, const string& data)
 
 void MySQLConnWrapper::execute(const string& query)
 {
+    try{
+	stmt->execute(query);
+    } catch (sql::SQLException &e){
+        manageException(e);
+    }
+}
 
-    try {
-    	if (query != "") {
+void MySQLConnWrapper::query(const string& query)
+{
+    try{
+    	if (query != ""){
     		res = stmt->executeQuery(query);
-    	} else {
+    	} else{
     		res = prep_stmt->executeQuery();
     		prep_stmt->close();
     	}
-    } catch (sql::SQLException &e) {
+    } catch (sql::SQLException &e){
         manageException(e);
     }
 }
